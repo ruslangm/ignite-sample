@@ -1,6 +1,6 @@
 ## Sample project for testing EventListener's work.
 
-**When I created one server node and put 10 elements in IgniteCache I've got good results. For 10 elements it was:**
+**When I created one server node and put 10 elements in IgniteCache I've got good results. For 10 elements it was (time diff in millis):**
 
 ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 51
 ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 2
