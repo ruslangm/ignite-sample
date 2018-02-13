@@ -1,7 +1,5 @@
 package ruslangm.sample.ignite.servers;
 
-import java.util.Random;
-import java.util.Scanner;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
@@ -10,16 +8,21 @@ import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheWriteSynchronizationMode;
 import org.apache.ignite.cache.query.ContinuousQuery;
 import org.apache.ignite.cache.query.QueryCursor;
+import org.apache.ignite.cluster.ClusterNode;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ruslangm.sample.ignite.listener.EventListener;
+import ruslangm.sample.ignite.listener.RemoteFactory;
 
 import javax.cache.Cache;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Server {
     private final static Logger LOGGER = LoggerFactory.getLogger(Server.class);
+    private Ignite ignite;
 
     public static void main(String... args) {
         BasicConfigurator.configure();
@@ -29,12 +32,13 @@ public class Server {
             cfg.setAtomicityMode(CacheAtomicityMode.ATOMIC);
             cfg.setWriteSynchronizationMode(CacheWriteSynchronizationMode.FULL_ASYNC);
             cfg.setName("myCache");
-            cfg.setBackups(1);
+            cfg.setBackups(2);
             IgniteCache<String, Long> cache = ignite.getOrCreateCache(cfg);
+            ClusterNode node = ignite.cluster().localNode();
 
             ContinuousQuery<String, Long> query = new ContinuousQuery<>();
             query.setLocalListener(new EventListener());
-            query.setLocal(true);
+            query.setRemoteFilterFactory(new RemoteFactory(ignite, node));
             QueryCursor<Cache.Entry<String, Long>> cursor = cache.query(query);
 
             while (true) {
@@ -53,19 +57,19 @@ public class Server {
                     System.exit(0);
                 }
             }
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     private static void putToCache(IgniteCache<String, Long> cache) throws InterruptedException {
-        for (int i = 0; i < 10; i++) {
+        int n = 50;
+        for (int i = 0; i < n; i++) {
             Random random = new Random();
             int randomInt = random.nextInt();
             long millis = System.currentTimeMillis();
             cache.put(String.valueOf(randomInt), millis);
         }
-        System.out.println("done");
+        System.out.println("done - " + n);
     }
 }

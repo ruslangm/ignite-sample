@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 @IgniteAsyncCallback
 public class EventListener implements CacheEntryUpdatedListener<String, Long> {
     private final static Logger LOGGER = LoggerFactory.getLogger(EventListener.class);
+    private int i = 0;
 
     @Override
     public void onUpdated(
@@ -20,7 +21,7 @@ public class EventListener implements CacheEntryUpdatedListener<String, Long> {
             if (event.getEventType() == EventType.CREATED) {
                 long millis = System.currentTimeMillis();
                 long delta = millis - event.getValue();
-                LOGGER.debug("Time diff between put and listener - " + delta);
+                LOGGER.debug("Time diff between put and listener - " + delta + "; N = " + i++);
             }
         }
     }
