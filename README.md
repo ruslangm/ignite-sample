@@ -1,39 +1,28 @@
 ## Sample project for testing EventListener's work.
 
-**When I created one server node and put 10 elements in IgniteCache I've got good results. For 10 elements it was (time diff in millis):**
+Run 2 server nodes. You should see something like this:
 
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 51
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 2
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 1
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 1
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 1
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 2
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 2
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 2
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 2
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 1
+Topology snapshot [ver=2, servers=2, clients=0, CPUs=4, heap=3.6GB]
 
-**When I added one server node (Topology snapshot became: [ver=2, servers=2, clients=0, CPUs=4, heap=3.6GB]) and setBackups(0)
-I also have got good results:**
+Put elements to cache (I put about 300 elements). Elements will be distributed between two nodes approxiamtely in the same amount. 
 
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 52
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 1
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 2
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 2
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 3
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 4
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 6
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 6
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 6
+As you can see from the code the sequence of call is: 
+Put to cache -> sleep 100 ms (to ensure that lsitener has received event) -> delete from cache.
 
-**But when I setBackups(1) (Topology snapshot still had 2 servers) I've got strange results:**
+Stop one node. (You shoul see something like: Topology snapshot [ver=3, servers=1, clients=0, CPUs=4, heap=1.8GB])
 
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 573
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 573
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 570
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 571
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 571
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 571
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 571
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 561
-ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 560
+Look at the log of another server node. 
+
+Topology snapshot [ver=3, servers=1, clients=0, CPUs=4, heap=1.8GB]
+DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 5374; N = 107
+DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- 1189809414 --------
+DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 17651; N = 108
+DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- 550085344 --------
+DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 16293; N = 109
+DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- 1505243141 --------
+DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 36203; N = 110
+DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- -869811566 --------
+DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 23918; N = 111
+DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- -1159391917 --------
+
+Yep, some events (absolutely randomly choosen and deleted from cache to this moment) still came to EventListener.
