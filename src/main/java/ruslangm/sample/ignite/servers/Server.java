@@ -22,7 +22,6 @@ import java.util.Scanner;
 
 public class Server {
     private final static Logger LOGGER = LoggerFactory.getLogger(Server.class);
-    private Ignite ignite;
 
     public static void main(String... args) {
         BasicConfigurator.configure();
@@ -66,9 +65,11 @@ public class Server {
         int n = 50;
         for (int i = 0; i < n; i++) {
             Random random = new Random();
-            int randomInt = random.nextInt();
+            String key = String.valueOf(random.nextInt());
             long millis = System.currentTimeMillis();
-            cache.put(String.valueOf(randomInt), millis);
+            cache.put(key, millis);
+            Thread.sleep(100); // sleep to ensure that event has been delivered to listener
+            cache.removeAsync(key); // remove object from cache
         }
         System.out.println("done - " + n);
     }

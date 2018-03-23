@@ -2,10 +2,12 @@ package ruslangm.sample.ignite.listener;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.cluster.ClusterNode;
+import org.apache.ignite.lang.IgniteAsyncCallback;
 
 import javax.cache.configuration.Factory;
 import javax.cache.event.CacheEntryEventFilter;
 
+@IgniteAsyncCallback
 public class RemoteFactory implements Factory<CacheEntryEventFilter<String, Long>>{
     private final Ignite ignite;
     private final ClusterNode node;

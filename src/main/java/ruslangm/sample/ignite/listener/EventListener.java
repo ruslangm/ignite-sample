@@ -22,6 +22,7 @@ public class EventListener implements CacheEntryUpdatedListener<String, Long> {
                 long millis = System.currentTimeMillis();
                 long delta = millis - event.getValue();
                 LOGGER.debug("Time diff between put and listener - " + delta + "; N = " + i++);
+                LOGGER.debug("-------- " + event.getKey() + " --------");
             }
         }
     }
