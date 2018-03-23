@@ -14,15 +14,15 @@ Stop one node. (You shoul see something like: Topology snapshot [ver=3, servers=
 Look at the log of another server node. 
 
 Topology snapshot [ver=3, servers=1, clients=0, CPUs=4, heap=1.8GB]
-DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 5374; N = 107
-DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- 1189809414 --------
-DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 17651; N = 108
-DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- 550085344 --------
-DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 16293; N = 109
-DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- 1505243141 --------
-DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 36203; N = 110
-DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- -869811566 --------
-DEBUG ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 23918; N = 111
-DEBUG ruslangm.sample.ignite.listener.EventListener  - -------- -1159391917 --------
+ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 5374; N = 107
+ruslangm.sample.ignite.listener.EventListener  - -------- 1189809414 --------
+ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 17651; N = 108
+ruslangm.sample.ignite.listener.EventListener  - -------- 550085344 --------
+ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 16293; N = 109
+ruslangm.sample.ignite.listener.EventListener  - -------- 1505243141 --------
+ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 36203; N = 110
+ruslangm.sample.ignite.listener.EventListener  - -------- -869811566 --------
+ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 23918; N = 111
+ruslangm.sample.ignite.listener.EventListener  - -------- -1159391917 --------
 
 Yep, some events (absolutely randomly choosen and deleted from cache to this moment) still came to EventListener.
