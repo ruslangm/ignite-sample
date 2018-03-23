@@ -14,6 +14,7 @@ Stop one node. (You shoul see something like: Topology snapshot [ver=3, servers=
 Look at the log of another server node. 
 
 Topology snapshot [ver=3, servers=1, clients=0, CPUs=4, heap=1.8GB]
+
 ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 5374; N = 107
 ruslangm.sample.ignite.listener.EventListener  - -------- 1189809414 --------
 ruslangm.sample.ignite.listener.EventListener  - Time diff between put and listener - 17651; N = 108
